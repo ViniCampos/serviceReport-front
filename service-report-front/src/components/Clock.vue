@@ -3,7 +3,7 @@
     <div class="row row-cols-3">
       <div class="col-sm-3">
           <i class="icon-tall bi bi-clock-history"></i>
-          <p>Vídeos</p>
+          <p>Horas</p>
       </div>
       <div class="col-sm-4">
         <div class="central-number">

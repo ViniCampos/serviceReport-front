@@ -8,7 +8,7 @@
 
       <ul class="nav nav-pills">
         <li class="nav-item"><a href="/#/report" class="nav-link active" aria-current="page">Relatório</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Mês</a></li>
+        <li class="nav-item"><a href="#/month" class="nav-link">Mês</a></li>
         <li class="nav-item"><a href="#" class="nav-link">Ano</a></li>
         <li class="nav-item"><a href="#" class="nav-link">Estudos</a></li>
       </ul>

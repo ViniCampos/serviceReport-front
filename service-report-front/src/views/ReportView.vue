@@ -1,4 +1,24 @@
 <template>
+  <div class="container">
+    <div class="row">
+      <div class="col-4">
+        <i class="icon-tall bi bi-calendar-date"></i>
+        <p>Data</p>
+      </div>
+      <div class="col-8">
+        <div class="row calendar-aligment">
+          <VueDatePicker
+            v-model="date"
+            select-text="Selecionar"
+            locale="pt-BR"
+            :enable-time-picker="false"
+            :max-date="new Date()"
+            focus-start-date>
+          </VueDatePicker>
+        </div>
+      </div>
+    </div>
+  </div>
   <publications
     id="publications"
     @atualizar-contador="publicationsContador">
@@ -18,25 +38,7 @@
     @atualizar-contador="revisitContador"
   >
   </revisit>
-  <div class="container">
-    <div class="row">
-      <div class="col-6">
-        <VueDatePicker
-          text-input
-          v-model="date"
-          select-text="Selecionar"
-          locale="pt-BR"
-          :enable-time-picker="false"
-          :max-date="new Date()"
-          focus-start-date>
-        </VueDatePicker>
-      </div>
-    </div>
-  </div>
   <input @click="sendReport" class="btn btn-primary w-90" type="submit" value="Enviar">
-  <div v-if="reportData">
-    <p>{{ reportData }}</p>
-  </div>
 </template>
 
 <script>
@@ -73,19 +75,15 @@ export default {
   methods: {
     publicationsContador (newValue) {
       this.publications = newValue
-      console.log('novo valor publications: ' + this.publications)
     },
     mediasContador (newValue) {
       this.medias = newValue
-      console.log('novo valor medias: ' + this.medias)
     },
     clockContador (newValue) {
       this.clock = newValue
-      console.log('novo valor clock: ' + this.clock)
     },
     revisitContador (newValue) {
       this.revisit = newValue
-      console.log('novo valor revisit: ' + this.revisit)
     },
     sendReport () {
       if (this.clock !== '0:00' && this.date !== null) {
@@ -102,20 +100,18 @@ export default {
           }
         }
         alert('Report a ser enviado: ' + JSON.stringify(report))
-        console.log('Report a ser enviado: ' + JSON.stringify(report))
+        this.postReportedData(report)
       } else {
         alert('Preencha os campos')
         console.log('Insira uma data')
       }
     },
-    fetchReportData () {
+    postReportedData (report) {
       const url = 'https://u9wy0guk1l.execute-api.sa-east-1.amazonaws.com/default/serviceReport'
-      const publicador = 'Vinicius Alves de Campos'
-      const fullURL = `${url}?publicador=${encodeURIComponent(publicador)}`
 
-      axios.get(fullURL)
+      axios.post(url, report)
         .then(response => {
-          this.reportData = response.data
+          alert(JSON.stringify(response.data))
         })
         .catch(error => {
           console.error(error)
@@ -153,6 +149,11 @@ i {
 
 .w-90 {
   width: 90%;
+}
+
+.calendar-aligment {
+  position: relative;
+  top: 30%;
 }
 
 </style>
