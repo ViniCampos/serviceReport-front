@@ -1,50 +1,59 @@
 <template>
-    <div class="container">
-      <div class="row row-cols-3">
-        <div class="col-sm-3">
-            <i class="icon-tall bi bi-book"></i>
-            <p>Publicações</p>
-        </div>
-        <div class="col-sm-4">
-          <div class="central-number">
-            0
-          </div>
-        </div>
-        <div class="col-sm-5">
-          <div class="row">
-            <div class="col-2">
-              <button type="button" class="btn btn-primary">+</button>
-            </div>
-            <div class="col-2">
-              <button type="button" class="btn btn-primary">-</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <div v-if="reportData">
-      <p>{{ reportData }}</p>
-    </div>
+  <publications
+    id="publications"
+    @atualizar-contador="publicationsContador">
+  </publications>
+  <medias
+    id="medias"
+    @atualizar-contador="mediasContador"
+  >
+  </medias>
+  <clock
+    id="clock"
+    @atualizar-contador="clockContador"
+  >
+</clock>
+  <div v-if="reportData">
+    <p>{{ reportData }}</p>
+  </div>
 </template>
 
 <script>
 import axios from 'axios'
+import Publications from '../components/Publications.vue'
+import Medias from '../components/Medias.vue'
+import Clock from '../components/Clock.vue'
 
 export default {
   name: 'ReportView',
   components: {
-
+    Publications,
+    Medias,
+    Clock
   },
   data () {
     return {
-      reportData: null
+      reportData: null,
+      publications: 0,
+      medias: 0
     }
   },
   mounted () {
     //  this.fetchReportData()
   },
   methods: {
+    publicationsContador (newValue) {
+      this.publications = newValue
+      console.log('novo valor publications: ' + this.publications)
+    },
+    mediasContador (newValue) {
+      this.medias = newValue
+      console.log('novo valor medias: ' + this.medias)
+    },
+    clockContador (newValue) {
+      this.medias = newValue
+      console.log('novo valor clock: ' + this.medias)
+    },
     fetchReportData () {
       const url = 'https://u9wy0guk1l.execute-api.sa-east-1.amazonaws.com/default/serviceReport'
       const publicador = 'Vinicius Alves de Campos'
@@ -71,7 +80,7 @@ export default {
 
 .central-number {
   position: relative;
-  top: 10%;
+  top: 0%;
   font-size: 70px;
 }
 
@@ -81,6 +90,11 @@ export default {
   font-size: 25px;
   font-weight: bold;
   border-radius: 38px
+}
+
+i {
+  top: 10%;
+  position: relative;
 }
 
 </style>
