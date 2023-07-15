@@ -6,6 +6,10 @@
           <div class="col-4">
             <p>{{ formatarData(item.data) }}</p>
           </div>
+          <div class="col-6"></div>
+          <div class="col-2 trash-button">
+            <i class="bi bi-trash" @click="deleteItem(item.id)"></i>
+          </div>
         </div>
         <div class="row pb-1">
           <div class="col-3"><i class="bi bi-person-video"></i> {{ item.videos }}</div>
@@ -34,7 +38,8 @@ export default {
   },
   data () {
     return {
-      reportData: null
+      reportData: null,
+      nomePublicador: 'Vinicius Alves de Campos'
     }
   },
   mounted () {
@@ -43,8 +48,7 @@ export default {
   methods: {
     fetchReportedData () {
       const url = 'https://u9wy0guk1l.execute-api.sa-east-1.amazonaws.com/default/serviceReport'
-      const publicador = 'Vinicius Alves de Campos'
-      const fullURL = `${url}?publicador=${encodeURIComponent(publicador)}`
+      const fullURL = `${url}?publicador=${encodeURIComponent(this.nomePublicador)}`
 
       axios.get(fullURL)
         .then(response => {
@@ -56,8 +60,21 @@ export default {
     },
     formatarData (data) {
       const date = new Date(data)
-      const dataFormatada = 'Dia ' + date.getDate() + ' Mês ' + (date.getMonth() + 1)
+      const dataFormatada = 'Dia ' + (date.getDate() + 1) + ' Mês ' + (date.getMonth() + 1)
       return dataFormatada
+    },
+    deleteItem (itemId) {
+      const url = 'https://u9wy0guk1l.execute-api.sa-east-1.amazonaws.com/default/serviceReport'
+      const fullURL = `${url}?publicador=${encodeURIComponent(this.nomePublicador)}&elementId=${encodeURIComponent(itemId)}`
+
+      axios.delete(fullURL)
+        .then(response => {
+          alert(JSON.stringify('deleted' + JSON.stringify(response.data)))
+          this.fetchReportedData()
+        })
+        .catch(error => {
+          console.error(error)
+        })
     }
   }
 }
@@ -72,6 +89,11 @@ export default {
 
 hr {
   height: 2px;
+}
+
+.trash-button {
+  position: relative;
+  top: -15%;
 }
 
 </style>
