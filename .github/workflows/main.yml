@@ -20,6 +20,7 @@ jobs:
 
       - name: Change to 'service-report-front' directory
         run: cd service-report-front
+        run: ls
 
       - name: Install dependencies
         run: npm install
