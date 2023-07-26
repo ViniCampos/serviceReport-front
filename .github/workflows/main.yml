@@ -18,11 +18,15 @@ jobs:
         with:
           node-version: '18.16.0'  # Use a versão desejada do Node.js
 
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: AKIARQI3K76CSSMJQ3XN
+          aws-secret-access-key: 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
+          aws-region: sa-east-1
+
       - name: Prepare and Deploy to S3
         run: |
           cd service-report-front
           npm install
           npm run build
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_KEY }}
-          aws s3 sync dist/ ${{ secrets.BUCKET_NAME }}
