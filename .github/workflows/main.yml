@@ -20,6 +20,8 @@ jobs:
 
       - name: Change to 'service-report-front' directory
         run: cd service-report-front
+
+      - name: Change to 'service-report-front' directory
         run: ls
 
       - name: Install dependencies
