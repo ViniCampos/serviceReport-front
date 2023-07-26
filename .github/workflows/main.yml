@@ -21,8 +21,8 @@ jobs:
       - name: Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: AKIARQI3K76CSSMJQ3XN
-          aws-secret-access-key: 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
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: sa-east-1
 
       - name: Prepare and Deploy to S3
@@ -30,3 +30,4 @@ jobs:
           cd service-report-front
           npm install
           npm run build
+          aws s3 sync dist/ ${{ secrets.BUCKET_NAME }}
